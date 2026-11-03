@@ -54,6 +54,48 @@
 html:not(.ready) .view { display: none !important; }
 html:not(.is-owner) #ownerBar, html:not(.is-owner) #smpForm, html:not(.is-owner) #certForm,
 html:not(.is-owner) #certDownload, html:not(.is-owner) #certNote, html:not(.is-owner) .owner-only { display: none !important; }
+
+.rc-wrap { display: grid; grid-template-columns: minmax(280px, 420px) 1fr; gap: 28px; align-items: start; }
+@media (max-width: 900px) { .rc-wrap { grid-template-columns: 1fr; } }
+.rc-form { display: grid; gap: 12px; }
+.rc-form label { display: flex; flex-direction: column; gap: 4px; font-size: 0.85rem; font-weight: 600; color: var(--muted); }
+.rc-form input, .rc-form select, .rc-form textarea { font: inherit; font-weight: 400; color: var(--ink); background: var(--bg); border: 1px solid var(--rule); padding: 8px 10px; width: 100%; min-width: 0; }
+.rc-two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.rc-paper { background: #fff; color: #14213d; border: 1px solid #d7dce6; box-shadow: 0 8px 30px rgba(14,26,56,.12); max-width: 760px; font-family: var(--body); }
+.rc-top { background: #0e1a38; color: #f4f1e8; padding: 26px 32px; border-bottom: 5px solid #d4af5f; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.rc-top h3 { font-family: var(--display); font-size: 1.6rem; font-weight: 600; color: #f4f1e8; }
+.rc-top small { display: block; color: #d4af5f; letter-spacing: .2em; text-transform: uppercase; font-size: .72rem; font-weight: 600; margin-top: 4px; }
+.rc-top .r { text-align: right; font-size: .95rem; }
+.rc-top .r b { color: #d4af5f; }
+.rc-body { padding: 26px 32px; }
+.rc-parties { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 22px; }
+.rc-parties h4 { margin: 0 0 6px; font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: #8a6f2a; }
+.rc-parties div { font-size: .98rem; line-height: 1.55; }
+.rc-table { width: 100%; border-collapse: collapse; margin: 6px 0 14px; }
+.rc-table th { text-align: left; font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: #5a6478; border-bottom: 2px solid #14213d; padding: 8px 0; }
+.rc-table th:last-child, .rc-table td:last-child { text-align: right; }
+.rc-table td { padding: 12px 0; border-bottom: 1px solid #e1e5ee; vertical-align: top; }
+.rc-total { display: flex; justify-content: flex-end; gap: 24px; align-items: baseline; font-size: 1.1rem; padding: 8px 0 18px; }
+.rc-total b { font-family: var(--display); font-size: 1.9rem; }
+.rc-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 24px; font-size: .95rem; border-top: 1px solid #e1e5ee; padding-top: 14px; }
+.rc-meta span { display: block; font-size: .7rem; letter-spacing: .16em; text-transform: uppercase; color: #8a6f2a; font-weight: 600; }
+.rc-stamp { display: inline-block; border: 2px solid #1f7a50; color: #1f7a50; padding: 2px 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; font-size: .8rem; transform: rotate(-3deg); }
+.rc-stamp.pending { border-color: #b7791f; color: #b7791f; }
+.rc-note { margin-top: 16px; font-size: .9rem; color: #3d4860; }
+.rc-foot { background: #f6f1e4; padding: 14px 32px; font-size: .85rem; color: #5a6478; text-align: center; }
+.rc-hist { margin-top: 26px; }
+.rc-hist li { display: flex; gap: 10px; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--rule); font-size: .92rem; }
+.rc-hist ul { list-style: none; padding: 0; margin: 0; }
+@media print {
+  .mast, nav, #ownerBar, footer, #view-receipts > h2, #view-receipts > .sub, .rc-form, .rc-hist { display: none !important; }
+  #view-receipts { padding: 0 !important; }
+  .rc-wrap { display: block; }
+  .rc-paper { max-width: none; box-shadow: none; border: 0; }
+  @page { margin: 12mm; }
+  .rc-top, .rc-foot { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+.rc-row { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; border: 1px solid var(--rule); padding: 10px 14px; margin-bottom: 8px; font-size: 0.95rem; }
+.rc-row b { font-family: var(--display); }
 .an-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin: 0 0 28px; }
 .an-tile { border: 1px solid var(--rule); border-top: 4px solid var(--gold); padding: 16px 18px; background: var(--paper); }
 .an-tile b { display: block; font-family: var(--display); font-size: 2.2rem; line-height: 1; }
@@ -311,7 +353,9 @@ footer { padding: 20px max(16px, env(safe-area-inset-right, 0px)) 26px max(16px,
     <a href="#reviews" data-view="reviews">Reviews</a>
     <a href="#payment" data-view="payment">Payment</a>
     <a href="#contact" data-view="contact">Contact</a>
+    <a href="#receipts" data-view="receipts" class="owner-only" id="navReceipts">Receipts</a>
     <a href="#analytics" data-view="analytics" class="owner-only" id="navAnalytics">Analytics</a>
+    <a href="#receipts" data-view="receipts" class="owner-only" id="navReceipts">Receipts</a>
   </nav>
 
   <div class="ownerbar" id="ownerBar" hidden>
@@ -599,6 +643,37 @@ footer { padding: 20px max(16px, env(safe-area-inset-right, 0px)) 26px max(16px,
         <p class="note" id="note" role="status"></p>
       </div>
     </div>
+    <!-- RECEIPTS (owner only) -->
+    <div class="view" id="view-receipts" hidden>
+      <h2>Receipts</h2>
+      <p class="sub">Only you can see this page. After a customer pays, fill this in, download the PDF and send it to them on WhatsApp or email.</p>
+      <form class="uploader" id="rcForm" novalidate>
+        <h3>New receipt</h3>
+        <div class="fields">
+          <label for="rcNo">Order number<input type="text" id="rcNo" maxlength="30"></label>
+          <label for="rcDate">Date<input type="date" id="rcDate"></label>
+          <label for="rcName">Buyer name<input type="text" id="rcName" maxlength="80" required></label>
+          <label for="rcPhone">Buyer number<input type="text" id="rcPhone" maxlength="30" inputmode="tel"></label>
+          <label for="rcMail">Buyer email (optional)<input type="email" id="rcMail" maxlength="80"></label>
+          <label for="rcSvc">Service
+            <select id="rcSvc"><option>Web Design</option><option>Python Programming</option><option>Logo Design</option><option>Photo Editing</option><option>Poster Design</option><option>Pamphlet &amp; Flyer Design</option><option>AI Trainer</option><option>Other Design Work</option></select></label>
+          <label for="rcPkg">Package or details (optional)<input type="text" id="rcPkg" maxlength="100" placeholder="e.g. Business package"></label>
+          <label for="rcMethod">Paid by
+            <select id="rcMethod"><option>bKash</option><option>PayPal</option><option>Bank deposit</option></select></label>
+          <label for="rcAmount">Amount paid<input type="number" id="rcAmount" min="0" step="0.01" inputmode="decimal" required></label>
+          <label for="rcCur">Currency
+            <select id="rcCur"><option>BDT</option><option>USD</option></select></label>
+          <label for="rcRef" class="full">Transaction reference (optional)<input type="text" id="rcRef" maxlength="60"></label>
+          <label for="rcNote" class="full">Note (optional)<textarea id="rcNote" rows="2" maxlength="200"></textarea></label>
+        </div>
+        <div class="btns" style="display:flex;margin-top:14px"><button class="btn solid" type="submit">Download receipt PDF</button></div>
+        <p class="msg" id="rcMsg" role="status"></p>
+      </form>
+      <h3 class="sec" style="font-size:1.4rem;margin:0 0 10px">Recent receipts</h3>
+      <p class="sub" style="margin:0 0 12px;font-size:0.92rem">Kept in this browser only.</p>
+      <div id="rcList"></div>
+    </div>
+
     <!-- ANALYTICS (owner only) -->
     <div class="view" id="view-analytics" hidden>
       <h2>Analytics</h2>
@@ -606,6 +681,71 @@ footer { padding: 20px max(16px, env(safe-area-inset-right, 0px)) 26px max(16px,
       <div class="btns" style="display:flex;margin:0 0 22px"><button class="btn solid" type="button" id="anRefresh">Refresh numbers</button></div>
       <p class="msg" id="anMsg" role="status" style="color:var(--muted)"></p>
       <div id="anBody"></div>
+    </div>
+    <!-- RECEIPTS (owner only) -->
+    <div class="view owner-only" id="view-receipts" hidden>
+      <h2>Receipts</h2>
+      <p class="sub">Only you can see this page. Fill in the order, check the preview, then print it or save it as a PDF to send to your customer.</p>
+      <div class="rc-wrap">
+        <form class="uploader rc-form" id="rcForm" novalidate style="margin:0">
+          <div class="rc-two">
+            <label>Order no<input type="text" id="rcNo" maxlength="30"></label>
+            <label>Date<input type="date" id="rcDate"></label>
+          </div>
+          <label>Buyer name<input type="text" id="rcBuyer" maxlength="80" autocomplete="off"></label>
+          <div class="rc-two">
+            <label>Buyer number<input type="text" id="rcBuyerNo" maxlength="30" inputmode="tel" autocomplete="off"></label>
+            <label>Buyer email (optional)<input type="email" id="rcBuyerMail" maxlength="80" autocomplete="off"></label>
+          </div>
+          <label>Service
+            <select id="rcSvc">
+              <option>Web Design</option><option>Python Programming</option><option>Logo Design</option><option>Photo Editing</option>
+              <option>Poster Design</option><option>Pamphlet &amp; Flyer Design</option><option>AI Trainer</option><option>Other Design Work</option>
+            </select></label>
+          <label>Package or details<input type="text" id="rcDesc" maxlength="140" placeholder="e.g. Business package, 5 pages"></label>
+          <div class="rc-two">
+            <label>Amount<input type="number" id="rcAmt" min="0" step="0.01" inputmode="decimal"></label>
+            <label>Currency<select id="rcCur"><option>BDT</option><option>USD</option></select></label>
+          </div>
+          <div class="rc-two">
+            <label>Paid by<select id="rcMethod"><option>bKash</option><option>PayPal</option><option>Bank deposit</option><option>Cash</option></select></label>
+            <label>Status<select id="rcStatus"><option value="paid">Paid</option><option value="pending">Payment pending</option></select></label>
+          </div>
+          <label>Transaction ID (optional)<input type="text" id="rcTx" maxlength="60" autocomplete="off"></label>
+          <label>Note (optional)<textarea id="rcNote" rows="2" maxlength="200"></textarea></label>
+          <div class="btns" style="display:flex;margin:4px 0 0">
+            <button class="btn solid" type="button" id="rcPrint">Print or save as PDF</button>
+            <button class="btn line-dark" type="button" id="rcCopy">Copy as message</button>
+            <button class="btn line-dark" type="button" id="rcSave">Save to list</button>
+          </div>
+          <p class="msg" id="rcMsg" role="status"></p>
+        </form>
+        <div>
+          <div class="rc-paper" id="rcPaper">
+            <div class="rc-top">
+              <div><h3>Payment Receipt</h3><small>Mohammed Abraaz Ahmed Roanar</small></div>
+              <div class="r"><div>Order no: <b id="pNo"></b></div><div>Date: <span id="pDate"></span></div></div>
+            </div>
+            <div class="rc-body">
+              <div class="rc-parties">
+                <div><h4>From</h4><b>Mohammed Abraaz Ahmed Roanar</b><br>Freelance Web Designer &amp; Python Developer<br>Cox&#39;s Bazar, Bangladesh<br>WhatsApp: +880 1823 771955<br>abraazahmed5@gmail.com<br>abraaz.net</div>
+                <div><h4>Billed to</h4><b id="pBuyer"></b><br><span id="pBuyerNo"></span><br><span id="pBuyerMail"></span></div>
+              </div>
+              <table class="rc-table"><thead><tr><th>Service</th><th>Amount</th></tr></thead>
+                <tbody><tr><td><b id="pSvc"></b><br><span id="pDesc" style="color:#5a6478;font-size:.92rem"></span></td><td id="pAmt"></td></tr></tbody></table>
+              <div class="rc-total"><span>Total</span><b id="pTotal"></b></div>
+              <div class="rc-meta">
+                <div><span>Paid by</span><b id="pMethod"></b></div>
+                <div><span>Status</span><i class="rc-stamp" id="pStatus"></i></div>
+                <div id="pTxWrap"><span>Transaction ID</span><b id="pTx"></b></div>
+              </div>
+              <p class="rc-note" id="pNote"></p>
+            </div>
+            <div class="rc-foot">Thank you for your business.</div>
+          </div>
+          <div class="rc-hist" id="rcHist"></div>
+        </div>
+      </div>
     </div>
   </main>
 
@@ -643,13 +783,13 @@ footer { padding: 20px max(16px, env(safe-area-inset-right, 0px)) 26px max(16px,
     }).catch(function () {});
   })();
 
-  var views = ['home', 'about', 'services', 'samples', 'packages', 'certificates', 'process', 'reviews', 'payment', 'contact', 'analytics'];
+  var views = ['home', 'about', 'services', 'samples', 'packages', 'certificates', 'process', 'reviews', 'payment', 'contact', 'analytics', 'receipts'];
   var links = document.querySelectorAll('nav a');
   var mast = document.getElementById('mast');
 
   function show() {
     var id = (location.hash || '').replace('#', '');
-    if (views.indexOf(id) === -1 || (id === 'analytics' && !window.__isOwner)) id = 'home';
+    if (views.indexOf(id) === -1 || ((id === 'analytics' || id === 'receipts') && !window.__isOwner)) id = 'home';
     views.forEach(function (v) {
       document.getElementById('view-' + v).hidden = (v !== id);
     });
@@ -784,7 +924,7 @@ footer { padding: 20px max(16px, env(safe-area-inset-right, 0px)) 26px max(16px,
         thumb.href = item.dataUrl; thumb.target = '_blank'; thumb.rel = 'noopener';
         thumb.setAttribute('aria-label', 'Open ' + item.title);
         thumb.addEventListener('click', function (e) { open(item, e); });
-        if (item.kind === 'pdf') thumb.appendChild(mk('span', 'pdf', 'PDF'));
+        if (item.kind === 'pdf') { thumb.appendChild(mk('span', 'pdf', 'PDF')); if (window.__pdfThumb) window.__pdfThumb(item.dataUrl, thumb); }
         else { var img = document.createElement('img'); img.src = item.dataUrl; img.alt = item.title; img.loading = 'lazy'; thumb.appendChild(img); }
         var info = mk('div', 'info');
         info.appendChild(mk('span', 'svc', item.service));
@@ -904,6 +1044,308 @@ footer { padding: 20px max(16px, env(safe-area-inset-right, 0px)) 26px max(16px,
       });
       items.sort(function (a, b) { return (a.createdAt || 0) - (b.createdAt || 0); });
       render();
+    });
+  })();
+
+  /* ---- receipts: owner only, made in the browser, nothing is sent anywhere ---- */
+  (function () {
+    var f = document.getElementById('rcForm'); if (!f) return;
+    function g(id) { return document.getElementById(id); }
+    var KEY = 'profile-receipts', list = [];
+    try { list = JSON.parse(localStorage.getItem(KEY) || '[]'); if (!Array.isArray(list)) list = []; } catch (e) { list = []; }
+    function persist() { try { localStorage.setItem(KEY, JSON.stringify(list.slice(0, 100))); } catch (e) {} }
+    function today() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+    function nextNo() {
+      var y = new Date().getFullYear(), n = 0;
+      list.forEach(function (r) { var m = /^ABR-(\d{4})-(\d+)$/.exec(r.no || ''); if (m && +m[1] === y) n = Math.max(n, +m[2]); });
+      return 'ABR-' + y + '-' + ('000' + (n + 1)).slice(-4);
+    }
+    function data() {
+      return { no: g('rcNo').value.trim(), date: g('rcDate').value, buyer: g('rcBuyer').value.trim(), buyerNo: g('rcBuyerNo').value.trim(), buyerMail: g('rcBuyerMail').value.trim(),
+        svc: g('rcSvc').value, desc: g('rcDesc').value.trim(), amt: g('rcAmt').value, cur: g('rcCur').value, method: g('rcMethod').value, status: g('rcStatus').value, tx: g('rcTx').value.trim(), note: g('rcNote').value.trim() };
+    }
+    function money(d) { var n = parseFloat(d.amt); if (isNaN(n)) n = 0; var t = n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); return d.cur === 'USD' ? '$' + t + ' USD' : 'BDT ' + t; }
+    function dateText(v) { if (!v) return ''; var p = v.split('-'); var m = ['January','February','March','April','May','June','July','August','September','October','November','December']; return +p[2] + ' ' + m[+p[1] - 1] + ' ' + p[0]; }
+    function preview() {
+      var d = data();
+      g('pNo').textContent = d.no || '-'; g('pDate').textContent = dateText(d.date);
+      g('pBuyer').textContent = d.buyer || 'Buyer name'; g('pBuyerNo').textContent = d.buyerNo; g('pBuyerMail').textContent = d.buyerMail;
+      g('pSvc').textContent = d.svc; g('pDesc').textContent = d.desc; g('pAmt').textContent = money(d); g('pTotal').textContent = money(d);
+      g('pMethod').textContent = d.method; g('pTx').textContent = d.tx; g('pTxWrap').hidden = !d.tx;
+      var st = g('pStatus'); st.textContent = d.status === 'paid' ? 'Paid' : 'Payment pending'; st.className = 'rc-stamp' + (d.status === 'paid' ? '' : ' pending');
+      g('pNote').textContent = d.note;
+    }
+    function fill(d) {
+      g('rcNo').value = d.no || ''; g('rcDate').value = d.date || today(); g('rcBuyer').value = d.buyer || ''; g('rcBuyerNo').value = d.buyerNo || ''; g('rcBuyerMail').value = d.buyerMail || '';
+      g('rcSvc').value = d.svc || 'Web Design'; g('rcDesc').value = d.desc || ''; g('rcAmt').value = d.amt || ''; g('rcCur').value = d.cur || 'BDT';
+      g('rcMethod').value = d.method || 'bKash'; g('rcStatus').value = d.status || 'paid'; g('rcTx').value = d.tx || ''; g('rcNote').value = d.note || '';
+      preview();
+    }
+    function history() {
+      var box = g('rcHist'); box.textContent = '';
+      if (!list.length) return;
+      var h = document.createElement('h3'); h.textContent = 'Saved receipts (this browser only)'; h.style.fontSize = '1.2rem'; box.appendChild(h);
+      var ul = document.createElement('ul');
+      list.forEach(function (r, i) {
+        var li = document.createElement('li'); var t = document.createElement('span'); t.textContent = r.no + ' · ' + (r.buyer || 'No name') + ' · ' + money(r);
+        var b = document.createElement('span'); var o = document.createElement('button'); o.type = 'button'; o.className = 'tab'; o.textContent = 'Open';
+        o.addEventListener('click', function () { fill(r); window.scrollTo(0, 0); });
+        var x = document.createElement('button'); x.type = 'button'; x.className = 'tab'; x.textContent = 'Delete'; x.style.marginLeft = '6px';
+        x.addEventListener('click', function () { list.splice(i, 1); persist(); history(); });
+        b.appendChild(o); b.appendChild(x); li.appendChild(t); li.appendChild(b); ul.appendChild(li);
+      });
+      box.appendChild(ul);
+    }
+    f.addEventListener('input', preview);
+    f.addEventListener('submit', function (e) { e.preventDefault(); });
+    g('rcPrint').addEventListener('click', function () {
+      var d = data();
+      if (!d.buyer || !d.amt) { g('rcMsg').textContent = 'Please fill in the buyer name and the amount first.'; return; }
+      g('rcMsg').textContent = 'In the print window choose "Save as PDF" to get a file you can send.';
+      var old = document.title; document.title = 'Receipt ' + d.no + ' - ' + d.buyer;
+      window.print(); document.title = old;
+    });
+    g('rcCopy').addEventListener('click', function () {
+      var d = data();
+      var t = 'Receipt ' + d.no + ' (' + dateText(d.date) + ')\nFrom: Mohammed Abraaz Ahmed Roanar, +880 1823 771955\nTo: ' + d.buyer + (d.buyerNo ? ', ' + d.buyerNo : '') +
+        '\nService: ' + d.svc + (d.desc ? ' - ' + d.desc : '') + '\nAmount: ' + money(d) + '\nPaid by: ' + d.method + (d.tx ? ' (' + d.tx + ')' : '') + '\nStatus: ' + (d.status === 'paid' ? 'Paid' : 'Payment pending') + '\nThank you for your business.';
+      try { navigator.clipboard.writeText(t).then(function () { g('rcMsg').textContent = 'Copied. Paste it into WhatsApp.'; }, function () { g('rcMsg').textContent = 'Could not copy on this browser.'; }); } catch (e2) { g('rcMsg').textContent = 'Could not copy on this browser.'; }
+    });
+    g('rcSave').addEventListener('click', function () {
+      var d = data();
+      if (!d.buyer || !d.amt) { g('rcMsg').textContent = 'Please fill in the buyer name and the amount first.'; return; }
+      var k = -1; list.forEach(function (r, i) { if (r.no === d.no) k = i; });
+      if (k > -1) list[k] = d; else list.unshift(d);
+      persist(); history(); g('rcMsg').textContent = 'Saved. Next order number is ready.';
+      if (k === -1) { var keep = { svc: d.svc, cur: d.cur, method: d.method }; fill({ no: nextNo(), date: today(), svc: keep.svc, cur: keep.cur, method: keep.method, status: 'paid' }); }
+    });
+    fill({ no: nextNo(), date: today(), status: 'paid' });
+    history();
+  })();
+
+  /* ---- PDF previews: show page 1 of a PDF instead of the word PDF ---- */
+  (function () {
+    var PJ = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    var PW = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    var loading = null, cache = {};
+    function loadLib() {
+      if (window.pdfjsLib) return Promise.resolve();
+      if (loading) return loading;
+      loading = new Promise(function (res, rej) {
+        var sc = document.createElement('script'); sc.src = PJ; sc.onload = res; sc.onerror = rej; document.head.appendChild(sc);
+      });
+      return loading;
+    }
+    function bytes(src) {
+      var m = /^data:[^,]*;base64,(.*)$/.exec(src);
+      if (!m) return null;
+      var bin = atob(m[1]), u = new Uint8Array(bin.length);
+      for (var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+      return u;
+    }
+    window.__pdfThumb = function (src, box) {
+      if (!src) return;
+      function put(url) {
+        var img = document.createElement('img'); img.src = url; img.alt = 'First page of the PDF';
+        box.textContent = ''; box.appendChild(img);
+      }
+      var key = src.length + ':' + src.slice(-60);
+      if (cache[key]) { put(cache[key]); return; }
+      loadLib().then(function () {
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = PW;
+        var b = bytes(src);
+        return window.pdfjsLib.getDocument(b ? { data: b } : { url: src }).promise;
+      }).then(function (pdf) { return pdf.getPage(1); }).then(function (page) {
+        var v1 = page.getViewport({ scale: 1 });
+        var vp = page.getViewport({ scale: 640 / v1.width });
+        var c = document.createElement('canvas'); c.width = Math.round(vp.width); c.height = Math.round(vp.height);
+        var ctx = c.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
+        return page.render({ canvasContext: ctx, viewport: vp }).promise.then(function () {
+          cache[key] = c.toDataURL('image/jpeg', 0.82); put(cache[key]);
+        });
+      }).catch(function () { /* keep the PDF label */ });
+    };
+  })();
+
+  /* ---- receipts (owner only): fill in, download a PDF, send it to the customer ---- */
+  (function () {
+    var form = document.getElementById('rcForm');
+    if (!form || !window.__isOwner) return;
+    var KEY = 'profile-receipts', CNT = 'profile-receipt-n';
+    var msg = document.getElementById('rcMsg'), listEl = document.getElementById('rcList');
+    function $(id) { return document.getElementById(id).value.trim(); }
+    /* tiny built-in PDF writer (no outside library): supports exactly what the receipt needs */
+    function MiniPdf() {
+      var K = 72 / 25.4, W = 595.28, H = 841.89, ops = [];
+      var fill = [0, 0, 0], stroke = [0, 0, 0], tc = [0, 0, 0], lw = 0.2, fam = 'helvetica', sty = 'normal', size = 10;
+      var self = this;
+      function c3(a) { return (a[0] / 255).toFixed(3) + ' ' + (a[1] / 255).toFixed(3) + ' ' + (a[2] / 255).toFixed(3); }
+      function fontName() {
+        if (fam === 'times') return sty === 'bold' ? 'F3' : sty === 'italic' ? 'F4' : 'F5';
+        return sty === 'bold' ? 'F2' : 'F1';
+      }
+      function safe(t) {
+        t = String(t).replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/[–—]/g, '-');
+        var o = '';
+        for (var i = 0; i < t.length; i++) { var ch = t.charCodeAt(i); o += ch < 256 ? t.charAt(i) : '?'; }
+        return o.replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
+      }
+      var cv = document.createElement('canvas').getContext('2d');
+      function width(t) {
+        cv.font = (sty === 'bold' ? 'bold ' : '') + (sty === 'italic' ? 'italic ' : '') + size + 'px ' + (fam === 'times' ? '"Times New Roman",Times,serif' : 'Arial,Helvetica,sans-serif');
+        return cv.measureText(String(t)).width / K;
+      }
+      self.setFillColor = function (r, g, b) { fill = [r, g, b]; };
+      self.setDrawColor = function (r, g, b) { stroke = [r, g, b]; };
+      self.setTextColor = function (r, g, b) { tc = [r, g, b]; };
+      self.setLineWidth = function (w) { lw = w; };
+      self.setFont = function (f, st) { fam = f; sty = st || 'normal'; };
+      self.setFontSize = function (n) { size = n; };
+      self.rect = function (x, y, w, h, mode) {
+        var p = (x * K).toFixed(2) + ' ' + (H - (y + h) * K).toFixed(2) + ' ' + (w * K).toFixed(2) + ' ' + (h * K).toFixed(2) + ' re ';
+        if (mode === 'F') ops.push(c3(fill) + ' rg ' + p + 'f');
+        else ops.push(c3(stroke) + ' RG ' + (lw * K).toFixed(2) + ' w ' + p + 'S');
+      };
+      self.roundedRect = function (x, y, w, h, rx, ry, mode) { self.rect(x, y, w, h, mode); };
+      self.line = function (x1, y1, x2, y2) {
+        ops.push(c3(stroke) + ' RG ' + (lw * K).toFixed(2) + ' w ' + (x1 * K).toFixed(2) + ' ' + (H - y1 * K).toFixed(2) + ' m ' + (x2 * K).toFixed(2) + ' ' + (H - y2 * K).toFixed(2) + ' l S');
+      };
+      self.text = function (t, x, y, o) {
+        t = String(t);
+        if (o && o.align === 'right') x -= width(t);
+        else if (o && o.align === 'center') x -= width(t) / 2;
+        ops.push('BT /' + fontName() + ' ' + size + ' Tf ' + c3(tc) + ' rg ' + (x * K).toFixed(2) + ' ' + (H - y * K).toFixed(2) + ' Td (' + safe(t) + ') Tj ET');
+      };
+      self.splitTextToSize = function (t, maxW) {
+        var words = String(t).split(/\s+/), out = [], line = '';
+        words.forEach(function (w) {
+          var tryL = line ? line + ' ' + w : w;
+          if (width(tryL) > maxW && line) { out.push(line); line = w; } else line = tryL;
+        });
+        if (line) out.push(line);
+        return out;
+      };
+      self.save = function (name) {
+        var content = ops.join('\n');
+        var objs = [
+          '<< /Type /Catalog /Pages 2 0 R >>',
+          '<< /Type /Pages /Kids [3 0 R] /Count 1 >>',
+          '<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ' + W + ' ' + H + '] /Resources << /Font << /F1 5 0 R /F2 6 0 R /F3 7 0 R /F4 8 0 R /F5 9 0 R >> >> /Contents 4 0 R >>',
+          '<< /Length ' + content.length + ' >>\nstream\n' + content + '\nendstream',
+          '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>',
+          '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>',
+          '<< /Type /Font /Subtype /Type1 /BaseFont /Times-Bold /Encoding /WinAnsiEncoding >>',
+          '<< /Type /Font /Subtype /Type1 /BaseFont /Times-Italic /Encoding /WinAnsiEncoding >>',
+          '<< /Type /Font /Subtype /Type1 /BaseFont /Times-Roman /Encoding /WinAnsiEncoding >>'
+        ];
+        var out = '%PDF-1.4\n', offs = [];
+        objs.forEach(function (o, i) { offs.push(out.length); out += (i + 1) + ' 0 obj\n' + o + '\nendobj\n'; });
+        var xr = out.length;
+        out += 'xref\n0 ' + (objs.length + 1) + '\n0000000000 65535 f \n';
+        offs.forEach(function (o) { out += ('0000000000' + o).slice(-10) + ' 00000 n \n'; });
+        out += 'trailer\n<< /Size ' + (objs.length + 1) + ' /Root 1 0 R >>\nstartxref\n' + xr + '\n%%EOF';
+        var u = new Uint8Array(out.length);
+        for (var i = 0; i < out.length; i++) u[i] = out.charCodeAt(i) & 255;
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([u], { type: 'application/pdf' }));
+        a.download = name; document.body.appendChild(a); a.click(); a.remove();
+      };
+    }
+    function loadLib() { return Promise.resolve(); }
+    function today() { var d = new Date(); return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+    function nextNo() {
+      var n = 0; try { n = parseInt(localStorage.getItem(CNT) || '0', 10) || 0; } catch (e) {}
+      return 'ABR-' + today().replace(/-/g, '') + '-' + ('00' + (n + 1)).slice(-3);
+    }
+    function bump() { var n = 0; try { n = parseInt(localStorage.getItem(CNT) || '0', 10) || 0; localStorage.setItem(CNT, String(n + 1)); } catch (e) {} }
+    function history() { try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return []; } }
+    function saveHist(r) { var h = history().filter(function (x) { return x.no !== r.no; }); h.unshift(r); try { localStorage.setItem(KEY, JSON.stringify(h.slice(0, 50))); } catch (e) {} }
+    function money(r) { return r.cur + ' ' + Number(r.amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+    function fmtDate(iso) { var p = iso.split('-'); var m = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']; return parseInt(p[2], 10) + ' ' + m[parseInt(p[1], 10) - 1] + ' ' + p[0]; }
+
+    function makePdf(r) {
+      var d = new MiniPdf();
+      var W = 210, M = 18, navy = [14, 26, 56], gold = [212, 175, 95], ink = [20, 33, 61], grey = [100, 110, 130];
+      d.setFillColor.apply(d, navy); d.rect(0, 0, W, 46, 'F');
+      d.setFillColor.apply(d, gold); d.rect(0, 46, W, 2.2, 'F');
+      d.setTextColor(244, 241, 232); d.setFont('times', 'bold'); d.setFontSize(21); d.text('Mohammed Abraaz Ahmed Roanar', M, 20);
+      d.setFont('times', 'italic'); d.setFontSize(12); d.setTextColor.apply(d, gold); d.text('Web Designer & Python Developer', M, 28);
+      d.setFont('helvetica', 'normal'); d.setFontSize(9); d.setTextColor(200, 206, 222); d.text("Freelance  |  Cox's Bazar, Bangladesh", M, 36);
+      d.setFont('helvetica', 'bold'); d.setFontSize(20); d.setTextColor.apply(d, gold); d.text('RECEIPT', W - M, 22, { align: 'right' });
+      d.setFont('helvetica', 'normal'); d.setFontSize(9.5); d.setTextColor(244, 241, 232);
+      d.text('Order no: ' + r.no, W - M, 30, { align: 'right' }); d.text('Date: ' + fmtDate(r.date), W - M, 36, { align: 'right' });
+
+      function label(t, x, y) { d.setFont('helvetica', 'bold'); d.setFontSize(8); d.setTextColor.apply(d, grey); d.text(t.toUpperCase(), x, y); }
+      function lines(arr, x, y) { d.setFont('helvetica', 'normal'); d.setFontSize(10.5); d.setTextColor.apply(d, ink); arr.filter(Boolean).forEach(function (t, i) { d.text(String(t), x, y + i * 5.6); }); }
+      var y = 62;
+      label('From', M, y); lines(['Mohammed Abraaz Ahmed Roanar', 'WhatsApp: +880 1823 771955', 'Email: abraazahmed5@gmail.com', 'abraaz.net'], M, y + 6);
+      label('Billed to', 112, y); lines([r.name, r.phone ? 'Phone: ' + r.phone : '', r.mail ? 'Email: ' + r.mail : ''], 112, y + 6);
+
+      y = 100;
+      d.setFillColor.apply(d, navy); d.rect(M, y, W - 2 * M, 9, 'F');
+      d.setFont('helvetica', 'bold'); d.setFontSize(9); d.setTextColor(244, 241, 232);
+      d.text('DESCRIPTION', M + 4, y + 6); d.text('PAID BY', 112, y + 6); d.text('AMOUNT', W - M - 4, y + 6, { align: 'right' });
+      y += 9;
+      d.setFont('helvetica', 'bold'); d.setFontSize(11); d.setTextColor.apply(d, ink); d.text(r.svc, M + 4, y + 9);
+      d.setFont('helvetica', 'normal'); d.setFontSize(9.5); d.setTextColor.apply(d, grey);
+      var desc = r.pkg ? d.splitTextToSize(r.pkg, 80) : []; desc.slice(0, 2).forEach(function (t, i) { d.text(t, M + 4, y + 15 + i * 5); });
+      d.setFontSize(10.5); d.setTextColor.apply(d, ink); d.text(r.method, 112, y + 9);
+      if (r.ref) { d.setFontSize(8.5); d.setTextColor.apply(d, grey); d.text('Ref: ' + r.ref, 112, y + 15); }
+      d.setFont('helvetica', 'bold'); d.setFontSize(11); d.setTextColor.apply(d, ink); d.text(money(r), W - M - 4, y + 9, { align: 'right' });
+      d.setDrawColor(215, 220, 230); d.line(M, y + 24, W - M, y + 24);
+
+      y += 36;
+      d.setFillColor(246, 241, 228); d.rect(112, y - 8, W - M - 112, 18, 'F');
+      d.setFillColor.apply(d, gold); d.rect(112, y - 8, 1.6, 18, 'F');
+      d.setFont('helvetica', 'bold'); d.setFontSize(9); d.setTextColor.apply(d, grey); d.text('TOTAL PAID', 118, y + 1);
+      d.setFontSize(15); d.setTextColor.apply(d, ink); d.text(money(r), W - M - 4, y + 3, { align: 'right' });
+
+      d.setDrawColor(30, 140, 90); d.setLineWidth(0.8); d.roundedRect(M, y - 8, 36, 18, 2, 2, 'S');
+      d.setTextColor(30, 140, 90); d.setFontSize(15); d.text('PAID', M + 18, y + 3.5, { align: 'center' });
+
+      if (r.note) { y += 22; label('Note', M, y); d.setFont('helvetica', 'normal'); d.setFontSize(10); d.setTextColor.apply(d, ink); d.text(d.splitTextToSize(r.note, W - 2 * M), M, y + 6); }
+
+      d.setDrawColor.apply(d, gold); d.setLineWidth(0.6); d.line(M, 262, W - M, 262);
+      d.setFont('times', 'italic'); d.setFontSize(12); d.setTextColor.apply(d, ink); d.text('Thank you for your business.', W / 2, 271, { align: 'center' });
+      d.setFont('helvetica', 'normal'); d.setFontSize(8.5); d.setTextColor.apply(d, grey);
+      d.text('Questions about this receipt? Message me on WhatsApp +880 1823 771955 with your order number.', W / 2, 278, { align: 'center' });
+      d.save('Receipt-' + r.no + '.pdf');
+    }
+
+    function renderList() {
+      listEl.textContent = '';
+      var h = history();
+      if (!h.length) { var p = document.createElement('p'); p.className = 'empty'; p.textContent = 'No receipts yet.'; listEl.appendChild(p); return; }
+      h.forEach(function (r) {
+        var row = document.createElement('div'); row.className = 'rc-row';
+        var t = document.createElement('span'); var b = document.createElement('b'); b.textContent = r.no; t.appendChild(b);
+        t.appendChild(document.createTextNode('  ' + r.name + '  |  ' + r.svc + '  |  ' + money(r) + '  |  ' + fmtDate(r.date)));
+        var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'btn line-dark'; btn.style.padding = '6px 14px'; btn.textContent = 'Download again';
+        btn.addEventListener('click', function () { loadLib().then(function () { makePdf(r); }, function () { msg.textContent = 'Could not load the PDF maker. Check your internet.'; }); });
+        row.appendChild(t); row.appendChild(btn); listEl.appendChild(row);
+      });
+    }
+
+    function reset() {
+      document.getElementById('rcNo').value = nextNo();
+      document.getElementById('rcDate').value = today();
+    }
+    reset(); renderList();
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var amount = parseFloat(document.getElementById('rcAmount').value);
+      if (!$('rcName') || !(amount > 0)) { msg.textContent = 'Please enter the buyer name and the amount paid.'; return; }
+      var r = { no: $('rcNo') || nextNo(), date: $('rcDate') || today(), name: $('rcName'), phone: $('rcPhone'), mail: $('rcMail'),
+        svc: $('rcSvc'), pkg: $('rcPkg'), method: $('rcMethod'), amount: amount, cur: $('rcCur'), ref: $('rcRef'), note: $('rcNote') };
+      msg.textContent = 'Making the PDF...';
+      loadLib().then(function () {
+        makePdf(r);
+        if (r.no === nextNo()) bump();
+        saveHist(r); renderList();
+        msg.textContent = 'Downloaded ' + r.no + '. Send the PDF to your customer.';
+        ['rcName', 'rcPhone', 'rcMail', 'rcPkg', 'rcAmount', 'rcRef', 'rcNote'].forEach(function (id) { document.getElementById(id).value = ''; });
+        reset();
+      }, function () { msg.textContent = 'Could not load the PDF maker. Check your internet and try again.'; });
     });
   })();
 
@@ -1277,6 +1719,7 @@ footer { padding: 20px max(16px, env(safe-area-inset-right, 0px)) 26px max(16px,
       thumb.addEventListener('click', function (ev) { openItem(item, ev); });
       if (item.kind === 'pdf') {
         thumb.appendChild(el('span', 'pdf', 'PDF'));
+        if (window.__pdfThumb) window.__pdfThumb(src, thumb);
       } else {
         var img = document.createElement('img');
         img.src = src; img.alt = item.title || 'Certificate'; img.loading = 'lazy';
