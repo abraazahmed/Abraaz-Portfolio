@@ -245,6 +245,11 @@ a.card:hover { box-shadow: 0 10px 26px rgba(10, 18, 40, 0.2); transform: transla
 .uploader .starpick input:focus-visible + label { outline: 2px solid var(--gold); outline-offset: 2px; }
 .uploader .lbl { display: block; font-size: 0.85rem; font-weight: 600; color: var(--muted); }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.ratestrip { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; margin: 0 0 26px; padding: 14px 18px; border: 1px solid var(--rule); border-left: 4px solid var(--gold); text-decoration: none; color: var(--ink); }
+.ratestrip .stars { color: var(--accent); font-size: 1.5rem; letter-spacing: 0.08em; }
+.ratestrip b { font-family: var(--display); font-size: 1.4rem; }
+.ratestrip span.t { color: var(--muted); }
+.leave { margin: 26px 0 0; }
 .avg { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 14px; margin: 0 0 22px; }
 .avg .big { color: var(--accent); font-size: 1.9rem; letter-spacing: 0.08em; }
 .avg .cnt { color: var(--muted); }
@@ -370,6 +375,7 @@ footer { padding: 20px max(16px, env(safe-area-inset-right, 0px)) 26px max(16px,
   <main>
     <!-- HOME -->
     <div class="view" id="view-home" hidden>
+      <a class="ratestrip" id="homeRate" href="#reviews" hidden></a>
       <h2 class="sec" style="font-size:clamp(1.9rem,5vw,2.6rem);line-height:1.1;margin-bottom:6px">What I do</h2>
       <p class="sub" style="margin:0 0 24px;color:var(--muted)">Select a service to see the details.</p>
       <div class="grid">
@@ -382,6 +388,7 @@ footer { padding: 20px max(16px, env(safe-area-inset-right, 0px)) 26px max(16px,
         <a class="card mini" href="#services"><span class="badge"><svg class="ic"><use href="#i-ai"/></svg></span><h3>AI Trainer</h3></a>
         <a class="card mini" href="#services"><span class="badge"><svg class="ic"><use href="#i-more"/></svg></span><h3>And more</h3></a>
       </div>
+      <p class="leave"><a class="btn line-dark" href="#reviews">Worked with me? Leave a star review</a></p>
     </div>
 
     <!-- ABOUT -->
@@ -1306,9 +1313,10 @@ footer { padding: 20px max(16px, env(safe-area-inset-right, 0px)) 26px max(16px,
       if (r.note) { y += 22; label('Note', M, y); d.setFont('helvetica', 'normal'); d.setFontSize(10); d.setTextColor.apply(d, ink); d.text(d.splitTextToSize(r.note, W - 2 * M), M, y + 6); }
 
       d.setDrawColor.apply(d, gold); d.setLineWidth(0.6); d.line(M, 262, W - M, 262);
-      d.setFont('times', 'italic'); d.setFontSize(12); d.setTextColor.apply(d, ink); d.text('Thank you for your business.', W / 2, 271, { align: 'center' });
+      d.setFont('times', 'italic'); d.setFontSize(12); d.setTextColor.apply(d, ink); d.text('Thank you for your business.', W / 2, 270, { align: 'center' });
+      d.setFont('helvetica', 'normal'); d.setFontSize(9); d.setTextColor.apply(d, ink); d.text('Happy with my work? Please leave a star review at abraaz.net/#reviews', W / 2, 276, { align: 'center' });
       d.setFont('helvetica', 'normal'); d.setFontSize(8.5); d.setTextColor.apply(d, grey);
-      d.text('Questions about this receipt? Message me on WhatsApp +880 1823 771955 with your order number.', W / 2, 278, { align: 'center' });
+      d.text('Questions about this receipt? Message me on WhatsApp +880 1823 771955 with your order number.', W / 2, 283, { align: 'center' });
       d.save('Receipt-' + r.no + '.pdf');
     }
 
@@ -1556,7 +1564,17 @@ footer { padding: 20px max(16px, env(safe-area-inset-right, 0px)) 26px max(16px,
       if (items.length) {
         var sum = 0;
         items.forEach(function (r) { sum += clamp(r.rating); });
-        var avg = Math.round(sum / items.length);
+        var exact = sum / items.length;
+        var avg = Math.round(exact);
+        var num = (Math.round(exact * 10) / 10).toFixed(1);
+        var hr = document.getElementById('homeRate');
+        if (hr) {
+          hr.textContent = '';
+          var hs = document.createElement('span'); hs.className = 'stars'; hs.textContent = stars(avg); hs.setAttribute('role', 'img'); hs.setAttribute('aria-label', 'Average rating ' + num + ' out of 5');
+          var hb = document.createElement('b'); hb.textContent = num + ' / 5';
+          var ht = document.createElement('span'); ht.className = 't'; ht.textContent = 'from ' + items.length + (items.length === 1 ? ' client review' : ' client reviews') + '. Read them';
+          hr.appendChild(hs); hr.appendChild(hb); hr.appendChild(ht); hr.hidden = false;
+        }
         avgEl.textContent = '';
         var big = document.createElement('span');
         big.className = 'stars big';
@@ -1566,9 +1584,10 @@ footer { padding: 20px max(16px, env(safe-area-inset-right, 0px)) 26px max(16px,
         var cnt = document.createElement('span');
         cnt.className = 'cnt';
         cnt.textContent = items.length + (items.length === 1 ? ' review' : ' reviews');
-        avgEl.appendChild(big); avgEl.appendChild(cnt);
+        var nb = document.createElement('b'); nb.textContent = num + ' / 5'; nb.style.fontFamily = 'var(--display)'; nb.style.fontSize = '1.6rem';
+        avgEl.appendChild(big); avgEl.appendChild(nb); avgEl.appendChild(cnt);
         avgEl.hidden = false;
-      } else { avgEl.hidden = true; }
+      } else { avgEl.hidden = true; var hr0 = document.getElementById('homeRate'); if (hr0) hr0.hidden = true; }
       items.forEach(function (r) {
         var n = clamp(r.rating);
         var card = document.createElement('article');
