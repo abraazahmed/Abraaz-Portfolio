@@ -469,6 +469,41 @@ footer .fine { margin: 14px auto 0; font-size: 0.85rem; max-width: 60ch; }
   .totop:hover { transform: translateY(-3px); }
 }
 
+/* more motion, round 2 */
+@media (prefers-reduced-motion: no-preference) {
+  /* shimmering gold role line */
+  .mast .role { background: linear-gradient(100deg, var(--gold) 0%, var(--gold) 38%, #f7e8b8 50%, var(--gold) 62%, var(--gold) 100%); background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; animation: shimmer 5s 1.5s ease-in-out infinite; }
+  @keyframes shimmer { 0% { background-position: 120% 0; } 60%, 100% { background-position: -120% 0; } }
+  /* the big outlined A drifts slowly */
+  .mast.big::after { animation: drift 9s ease-in-out infinite; }
+  @keyframes drift { 0%, 100% { transform: translateY(-50%) rotate(0deg); } 50% { transform: translateY(calc(-50% - 14px)) rotate(1.2deg); } }
+  /* service numbers fill with gold on hover */
+  #view-services .card::before { transition: color 0.3s ease, transform 0.3s ease; }
+  #view-services .card:hover::before { color: var(--gold); transform: scale(1.12); }
+  /* gold top rule on cards grows from the left */
+  .cert, .smp, .review { background-image: linear-gradient(var(--gold), var(--gold)); background-repeat: no-repeat; background-size: 0 4px; background-position: 0 0; transition: background-size 0.5s ease, transform 0.2s ease, box-shadow 0.2s ease; }
+  .cert:hover, .smp:hover, .review:hover { background-size: 100% 4px; }
+  /* form fields glow gently when focused */
+  input, select, textarea { transition: box-shadow 0.25s ease, border-color 0.25s ease; }
+  input:focus, select:focus, textarea:focus { box-shadow: 0 0 0 3px rgba(216, 180, 90, 0.35); }
+  /* links in text: underline slides in */
+  .view p a:not(.btn), .view dd a { background: linear-gradient(currentColor, currentColor) no-repeat 0 100% / 0 1px; text-decoration: none; transition: background-size 0.3s ease; }
+  .view p a:not(.btn):hover, .view dd a:hover { background-size: 100% 1px; }
+  /* back to top bounces in */
+  .totop.on { animation: bounceIn 0.5s cubic-bezier(0.3, 1.6, 0.5, 1); }
+  @keyframes bounceIn { from { transform: translateY(24px) scale(0.7); } to { transform: none; } }
+  /* bars and meters grow in when their page opens (ratings, demand) */
+  .view:not([hidden]) [class*="bar"] > i, .view:not([hidden]) [class*="bar"] > span.fill { transform-origin: left center; animation: barGrow 1s 0.3s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+}
+/* scroll-driven extras (Chrome, Edge, Safari 26+; ignored elsewhere) */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: scroll()) {
+    html::before { content: ""; position: fixed; top: 0; left: 0; right: 0; height: 3px; background: var(--gold); transform-origin: left center; transform: scaleX(0); z-index: 100; pointer-events: none; animation: progress linear both; animation-timeline: scroll(root); }
+    @keyframes progress { to { transform: scaleX(1); } }
+    .mast.big::after { animation: drift 9s ease-in-out infinite; }
+  }
+}
+
 /* very small phones and large touch targets */
 @media (max-width: 420px) {
   .btns { gap: 10px; } .btn { padding: 12px 20px; }
